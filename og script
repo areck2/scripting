@@ -1,3 +1,15 @@
+-- HOLD E BYPASS
+local Interface = require(game:GetService("ReplicatedStorage").Module.UI);
+for i,a in next, Interface.CircleAction.Specs do
+   a.Timed = false;
+end;
+
+-- KEYCARD
+local plrUtils = game:GetService("ReplicatedStorage").Game.PlayerUtils
+local oldHasKey = require(plrUtils).hasKey
+require(plrUtils).hasKey = function() 
+    return true
+end
 
 -- create a ScreenGui object to hold our GUI
 local gui = Instance.new("ScreenGui")
@@ -94,8 +106,18 @@ platformButton.Parent = frame
 
 -- function to execute the script when the platform button is clicked
 local function onPlatformButtonClicked()
-   local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
-   teleport(CFrame.new(0, 2000, 0))
+    --make platform to afk on / escape
+    local platform = Instance.new("Part")
+    platform.Size = Vector3.new(200, 4, 200)
+    platform.Position = Vector3.new(0, 2000, 0)
+    platform.Anchored = true
+    platform.CanCollide = true
+    platform.Material = Enum.Material.Granite
+    platform.BrickColor = BrickColor.new("Medium stone grey")
+    platform.Parent = workspace
+    -- tp to it
+    local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
+    teleport(CFrame.new(0, 2000, 0))
 end
 
 platformButton.MouseButton1Click:Connect(onPlatformButtonClicked)
