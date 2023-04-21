@@ -76,3 +76,62 @@ frame.MouseMoved:Connect(function(input)
     end
     lastPos = input.Position
 end)
+
+-- AFK PLATFORM SPOT THING
+
+-- create a Button to teleport to the platform
+local platformButton = Instance.new("TextButton")
+platformButton.Size = UDim2.new(0.8, 0, 0.35, 0)
+platformButton.Position = UDim2.new(0.1, 0, 0.85, 0)
+platformButton.Text = "Teleport to Platform"
+platformButton.Font = Enum.Font.SourceSansBold
+platformButton.TextSize = 16
+platformButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+platformButton.AutoButtonColor = false
+platformButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
+platformButton.BorderSizePixel = 1
+platformButton.Parent = frame
+
+-- function to execute the script when the platform button is clicked
+local function onPlatformButtonClicked()
+   local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
+   teleport(CFrame.new(0, 2000, 0))
+end
+
+platformButton.MouseButton1Click:Connect(onPlatformButtonClicked)
+
+-- GENERAL NO FALL DAMAGE
+
+--// no fall damage or ragdoll 
+
+local old_is_point_in_tag = dependencies.modules.player_utils.isPointInTag;
+dependencies.modules.player_utils.isPointInTag = function(point, tag)
+    if dependencies.variables.teleporting and tag == "NoRagdoll" or tag == "NoFallDamage" then
+        return true;
+    end;
+    
+    return old_is_point_in_tag(point, tag);
+end;
+
+--// anti skydive
+
+local oldIsFlying = dependencies.modules.paraglide.IsFlying
+dependencies.modules.paraglide.IsFlying = function(...)
+    if dependencies.variables.teleporting and getinfo(2, "s").source:find("Falling") then
+        return true
+    end
+    
+    return oldIsFlying(...)
+end
+
+--// stop velocity
+
+task.spawn(function()
+    while task.wait() do
+        if dependencies.variables.stopVelocity and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.Velocity = Vector3.zero;
+        end;
+    end;
+end);
+
+
