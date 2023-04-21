@@ -1,11 +1,1 @@
-
-
--- function to execute the script when the Jewelry Store button is clicked
-local function onJewelryStoreButtonClicked()
-   teleport(CFrame.new(150, 18, 1373))
-   jewelryStoreButton.MouseButton1Click:Disconnect()
-   wait(5)
-   jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
-end
-
-jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
+teleport(CFrame.new(150, 18, 1373))
