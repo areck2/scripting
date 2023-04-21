@@ -39,7 +39,7 @@ local function onBankButtonClicked()
 end
 
 bankButton.MouseButton1Click:Connect(onBankButtonClicked)
-
+-- stuff for gui moving
 -- create a variable to store the last position of the mouse
 local lastPos
 
