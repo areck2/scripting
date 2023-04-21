@@ -1,3 +1,6 @@
+--example loadstring
+--loadstring(game:HttpGet(""))()
+
 -- create a ScreenGui object to hold our GUI
 local gui = Instance.new("ScreenGui")
 gui.Name = "TeleportationGUI"
@@ -9,6 +12,7 @@ frame.Size = UDim2.new(0.4, 0, 0.4, 0)
 frame.Position = UDim2.new(0.5, -100, 0.5, -60)
 frame.AnchorPoint = Vector2.new(0.5, 0.5)
 frame.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
+
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
@@ -26,6 +30,15 @@ jewelryStoreButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
 jewelryStoreButton.BorderSizePixel = 1
 jewelryStoreButton.Parent = frame
 
+-- function to execute the script when the Jewelry Store button is clicked
+local function onJewelryStoreButtonClicked()
+   teleport(CFrame.new(150, 18, 1373))
+   loadstring(game:HttpGet("https://raw.github.com/areck2/scripting/main/tp%20to%20j%20store"))()
+   wait(5)
+   jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
+end
+jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
+
 --bank buttons
 -- create a Button to teleport to the Bank
 local bankButton = Instance.new("TextButton")
@@ -39,6 +52,18 @@ bankButton.AutoButtonColor = false
 bankButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
 bankButton.BorderSizePixel = 1
 bankButton.Parent = frame
+
+-- function to execute the script when the Bank button is clicked
+local function onBankButtonClicked()
+bankButton.MouseButton1Click:Disconnect()
+    loadstring(game:HttpGet(""))()
+   wait(5)
+   bankButton.MouseButton1Click:Connect(onBankButtonClicked)
+end
+
+bankButton.MouseButton1Click:Connect(onBankButtonClicked)
+
+
 
 -- stuff for gui moving
 -- create a variable to store the last position of the mouse
