@@ -1,4 +1,4 @@
-local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
+local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/car%20fly"))()
 
 -- create a ScreenGui object to hold our GUI
 local gui = Instance.new("ScreenGui")
