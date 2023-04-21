@@ -56,7 +56,7 @@ bankButton.Parent = frame
 -- function to execute the script when the Bank button is clicked
 local function onBankButtonClicked()
 bankButton.MouseButton1Click:Disconnect()
-    loadstring(game:HttpGet(""))()
+    loadstring(game:HttpGet("https://raw.github.com/areck2/scripting/main/bank"))()
    wait(5)
    bankButton.MouseButton1Click:Connect(onBankButtonClicked)
 end
