@@ -1,0 +1,15 @@
+-- define the code to run when the right shift key is pressed
+local function onRightShiftKeyPressed()
+    -- coordinate finder
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/coordinate%20finder"))()
+end
+
+-- create a UserInputService
+local userInputService = game:GetService("UserInputService")
+
+-- listen for when the right shift key is pressed
+userInputService.InputBegan:Connect(function(input, isProcessed)
+    if not isProcessed and input.KeyCode == Enum.KeyCode.RightShift then
+        onRightShiftKeyPressed()
+    end
+end)
