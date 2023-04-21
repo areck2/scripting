@@ -1,3 +1,4 @@
+--load teleporter
 local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/car%20fly"))()
 
 --create gui
