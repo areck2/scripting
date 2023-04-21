@@ -9,3 +9,9 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main
 
 --bank rob
 loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/bank"))()
+
+-- coordinate finder
+loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/load%20coordinate%20finder"))()
+
+--example loadstring
+--loadstring(game:HttpGet(""))()
