@@ -1,0 +1,35 @@
+-- create a Button to teleport to the Jewelry Store
+local jewelryStoreButton = Instance.new("TextButton")
+jewelryStoreButton.Size = UDim2.new(0.8, 0, 0.35, 0)
+jewelryStoreButton.Position = UDim2.new(0.1, 0, 0.15, 0)
+jewelryStoreButton.Text = "Teleport to Jewelry Store"
+jewelryStoreButton.Font = Enum.Font.SourceSansBold
+jewelryStoreButton.TextSize = 16
+jewelryStoreButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+jewelryStoreButton.AutoButtonColor = false
+jewelryStoreButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
+jewelryStoreButton.BorderSizePixel = 1
+jewelryStoreButton.Parent = frame
+
+-- function to execute the script when the Jewelry Store button is clicked
+local function onJewelryStoreButtonClicked()
+   teleport(CFrame.new(150, 18, 1373))
+   jewelryStoreButton.MouseButton1Click:Disconnect()
+   wait(5)
+   jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
+end
+
+jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
+
+-- create a Button to teleport to the Bank
+local bankButton = Instance.new("TextButton")
+bankButton.Size = UDim2.new(0.8, 0, 0.35, 0)
+bankButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+bankButton.Text = "Teleport to Bank"
+bankButton.Font = Enum.Font.SourceSansBold
+bankButton.TextSize = 16
+bankButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+bankButton.AutoButtonColor = false
+bankButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
+bankButton.BorderSizePixel = 1
+bankButton.Parent = frame
