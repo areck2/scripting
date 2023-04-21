@@ -1,15 +1,4 @@
--- create a Button to teleport to the Bank
-local bankButton = Instance.new("TextButton")
-bankButton.Size = UDim2.new(0.8, 0, 0.35, 0)
-bankButton.Position = UDim2.new(0.1, 0, 0.5, 0)
-bankButton.Text = "Teleport to Bank"
-bankButton.Font = Enum.Font.SourceSansBold
-bankButton.TextSize = 16
-bankButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-bankButton.AutoButtonColor = false
-bankButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
-bankButton.BorderSizePixel = 1
-bankButton.Parent = frame
+
 
 -- function to execute the script when the Bank button is clicked
 local function onBankButtonClicked()
