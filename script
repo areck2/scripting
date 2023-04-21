@@ -14,28 +14,8 @@ frame.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
--- create a Button to teleport to the Jewelry Store
-local jewelryStoreButton = Instance.new("TextButton")
-jewelryStoreButton.Size = UDim2.new(0.8, 0, 0.35, 0)
-jewelryStoreButton.Position = UDim2.new(0.1, 0, 0.15, 0)
-jewelryStoreButton.Text = "Teleport to Jewelry Store"
-jewelryStoreButton.Font = Enum.Font.SourceSansBold
-jewelryStoreButton.TextSize = 16
-jewelryStoreButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-jewelryStoreButton.AutoButtonColor = false
-jewelryStoreButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
-jewelryStoreButton.BorderSizePixel = 1
-jewelryStoreButton.Parent = frame
-
--- function to execute the script when the Jewelry Store button is clicked
-local function onJewelryStoreButtonClicked()
-   teleport(CFrame.new(150, 18, 1373))
-   jewelryStoreButton.MouseButton1Click:Disconnect()
-   wait(5)
-   jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
-end
-
-jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
+-- jstore rob
+loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/tp%20to%20j%20store"))()
 
 -- create a Button to teleport to the Bank
 local bankButton = Instance.new("TextButton")
