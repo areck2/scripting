@@ -1,4 +1,3 @@
-local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
 
 -- create a ScreenGui object to hold our GUI
 local gui = Instance.new("ScreenGui")
@@ -29,6 +28,7 @@ jewelryStoreButton.Parent = frame
 
 -- function to execute the script when the Jewelry Store button is clicked
 local function onJewelryStoreButtonClicked()
+   local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
    teleport(CFrame.new(150, 18, 1373))
    jewelryStoreButton.MouseButton1Click:Disconnect()
    wait(5)
@@ -52,6 +52,7 @@ bankButton.Parent = frame
 
 -- function to execute the script when the Bank button is clicked
 local function onBankButtonClicked()
+   local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
    teleport(CFrame.new(-3, 18, 871))
    bankButton.MouseButton1Click:Disconnect()
    wait(5)
