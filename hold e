@@ -1,0 +1,4 @@
+local Interface = require(game:GetService("ReplicatedStorage").Module.UI);
+for i,a in next, Interface.CircleAction.Specs do
+   a.Timed = false;
+end;
