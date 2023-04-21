@@ -1,38 +1,10 @@
 local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/car%20fly"))()
 
--- create a ScreenGui object to hold our GUI
-local gui = Instance.new("ScreenGui")
-gui.Name = "TeleportationGUI"
-gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
--- create a Frame to hold our buttons
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0.4, 0, 0.4, 0)
-frame.Position = UDim2.new(0.5, -100, 0.5, -60)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
-frame.BorderSizePixel = 0
-frame.Parent = gui
+--create gui
+loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/create%20gui"))()
 
 -- jstore rob
 loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/tp%20to%20j%20store"))()
 
 --bank rob
 loadstring(game:HttpGet("https://raw.githubusercontent.com/areck2/scripting/main/bank"))()
-
--- stuff for gui moving
--- create a variable to store the last position of the mouse
-local lastPos
-
--- make the frame moveable
-frame.Active = true
-frame.Draggable = true
-
--- update the last position of the mouse when it moves over the frame
-frame.MouseMoved:Connect(function(input)
-    if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
-        local delta = input.Position - lastPos
-        frame.Position = UDim2.new(frame.Position.X.Scale, frame.Position.X.Offset + delta.X, frame.Position.Y.Scale, frame.Position.Y.Offset + delta.Y)
-    end
-    lastPos = input.Position
-end)
