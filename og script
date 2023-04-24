@@ -11,11 +11,11 @@ require(plrUtils).hasKey = function()
     return true
 end
 
+--GUI STUFF
 -- create a ScreenGui object to hold our GUI
 local gui = Instance.new("ScreenGui")
 gui.Name = "TeleportationGUI"
 gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
 -- create a Frame to hold our buttons
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0.4, 0, 0.4, 0)
@@ -25,6 +25,7 @@ frame.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
+--J STORE STUFF
 -- create a Button to teleport to the Jewelry Store
 local jewelryStoreButton = Instance.new("TextButton")
 jewelryStoreButton.Size = UDim2.new(0.8, 0, 0.35, 0)
@@ -37,7 +38,6 @@ jewelryStoreButton.AutoButtonColor = false
 jewelryStoreButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
 jewelryStoreButton.BorderSizePixel = 1
 jewelryStoreButton.Parent = frame
-
 -- function to execute the script when the Jewelry Store button is clicked
 local function onJewelryStoreButtonClicked()
    local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
@@ -46,9 +46,9 @@ local function onJewelryStoreButtonClicked()
    wait(5)
    jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
 end
-
 jewelryStoreButton.MouseButton1Click:Connect(onJewelryStoreButtonClicked)
 
+--BANK STUFF
 -- create a Button to teleport to the Bank
 local bankButton = Instance.new("TextButton")
 bankButton.Size = UDim2.new(0.8, 0, 0.35, 0)
@@ -61,7 +61,6 @@ bankButton.AutoButtonColor = false
 bankButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
 bankButton.BorderSizePixel = 1
 bankButton.Parent = frame
-
 -- function to execute the script when the Bank button is clicked
 local function onBankButtonClicked()
    local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
@@ -70,9 +69,9 @@ local function onBankButtonClicked()
    wait(5)
    bankButton.MouseButton1Click:Connect(onBankButtonClicked)
 end
-
 bankButton.MouseButton1Click:Connect(onBankButtonClicked)
 
+--GUI MOVE STUFF
 -- create a variable to store the last position of the mouse
 local lastPos
 
@@ -89,8 +88,7 @@ frame.MouseMoved:Connect(function(input)
     lastPos = input.Position
 end)
 
--- AFK PLATFORM SPOT THING
-
+-- SKY PLATFORM THING
 -- create a Button to teleport to the platform
 local platformButton = Instance.new("TextButton")
 platformButton.Size = UDim2.new(0.8, 0, 0.35, 0)
@@ -103,7 +101,6 @@ platformButton.AutoButtonColor = false
 platformButton.BackgroundColor3 = Color3.fromRGB(78, 84, 200)
 platformButton.BorderSizePixel = 1
 platformButton.Parent = frame
-
 -- function to execute the script when the platform button is clicked
 local function onPlatformButtonClicked()
     --make platform to afk on / escape
@@ -119,11 +116,9 @@ local function onPlatformButtonClicked()
     local teleport = loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/RobloxReleases/main/Scripts/Jailbreak/Teleporation.lua"))()
     teleport(CFrame.new(0, 2000, 0))
 end
-
 platformButton.MouseButton1Click:Connect(onPlatformButtonClicked)
 
 -- GENERAL NO FALL DAMAGE
-
 --// no fall damage or ragdoll 
 
 local old_is_point_in_tag = dependencies.modules.player_utils.isPointInTag;
@@ -155,5 +150,3 @@ task.spawn(function()
         end;
     end;
 end);
-
-
