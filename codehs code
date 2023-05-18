@@ -1,0 +1,63 @@
+var isRainbow = false;
+
+function start() {
+    // Create the Audio
+    var song = new Audio("https://codehs.com/uploads/34038038be1dacf172c1e106524a13f2");
+    
+    // Play the song
+    song.play();
+    
+    // Visualize the song every time it changes
+    audioChangeMethod(song, visualize);
+    
+    // Create the "rgb" button
+    var button = new Rectangle(50, 50);
+    button.setPosition(getWidth() - 50, getHeight() - 50);
+    button.setColor(Color.red);
+    add(button);
+    
+    // Add a mouse click method to toggle the rainbow effect
+    mouseClickMethod(function(e) {
+        if (e.getX() >= getWidth() - 50 && e.getY() >= getHeight() - 50) {
+            isRainbow = !isRainbow;
+        }
+    });
+}
+
+function visualize(frame) {
+    removeAll();
+
+    var desiredNumBars = 500; // Adjust this number to change the number of bars
+    var barHeight = getHeight() / desiredNumBars;
+    var barSpacingFactor = 1.6; // Adjust this factor to spread the bars more
+
+    for(var i = 0; i < desiredNumBars; i++) {
+        var dataIndex = Math.floor(i * frame.length / desiredNumBars);
+        var barWidth = frame[dataIndex];
+
+        var bar = new Oval(barWidth, barHeight);
+        var verticalOffset = barHeight * barSpacingFactor * i; // Calculate the vertical offset
+        bar.setPosition(0, verticalOffset);
+
+        if (isRainbow) {
+            var hue = i / desiredNumBars;
+            var color = Color.hsvToRgb(hue, 1, 1);
+            bar.setColor(color);
+        } else {
+            var red = Math.floor((barWidth / getWidth()) * 0);
+            var green = Math.floor((barWidth / getWidth()) * 400);
+            var blue = Math.floor((barWidth / getWidth()) * 400);
+            var color = new Color(red, green, blue);
+
+            bar.setColor(color);
+        }
+        
+        add(bar);
+    }
+    
+    // Add the "rgb" button back to the canvas
+    var button = new Rectangle(50, 50);
+    button.setPosition(getWidth() - 50, getHeight() - 50);
+    button.setColor(Color.red);
+    add(button);
+}
