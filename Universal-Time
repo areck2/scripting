@@ -91,9 +91,6 @@ end)
 -- Teleport Function using TweenService
 local TweenService = game:GetService("TweenService")
 
--- Define a constant speed for teleportation
-local teleportSpeed = 50 -- Units per second
-
 local function DoTeleport()
     local x, y, z = tonumber(XBox.Text), tonumber(YBox.Text), tonumber(ZBox.Text)
     if x and y and z then
@@ -103,15 +100,9 @@ local function DoTeleport()
         if character then
             local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
             if humanoidRootPart then
-                -- Calculate the distance to the target position
-                local distance = (humanoidRootPart.Position - targetPosition).Magnitude
-                
-                -- Calculate the duration based on the defined speed
-                local duration = distance / teleportSpeed
-                
-                -- Define TweenInfo with the calculated duration
+                -- Define TweenInfo
                 local tweenInfo = TweenInfo.new(
-                    duration, -- Duration calculated based on distance and speed
+                    2, -- Duration (in seconds)
                     Enum.EasingStyle.Linear, -- Easing style
                     Enum.EasingDirection.Out, -- Easing direction
                     0, -- Repeat count (0 means no repeat)
