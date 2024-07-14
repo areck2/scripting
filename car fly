@@ -347,3 +347,19 @@ local function teleport(cframe, tried) -- unoptimized
 end;
 
 return teleport;
+
+
+
+
+-- Test function
+local function testTeleport(x, y, z)
+    local targetCFrame = CFrame.new(x, y, z)
+    print("Teleporting to:", targetCFrame.Position)
+    teleport(targetCFrame)
+end
+
+-- Example usage:
+-- Uncomment the line below and replace the coordinates with your desired location
+-- testTeleport(100, 50, 200)
+
+testTeleport(100,50,200)
