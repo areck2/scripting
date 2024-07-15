@@ -50,7 +50,7 @@ local function interactWithSwords()
         local sword = workspace:FindFirstChild(swordName)
         if sword then
             -- Calculate the target position 10 units above the sword's location
-            local targetPosition = sword.HumanoidRootPart.Position + Vector3.new(0, 10, 0)
+            local targetPosition = sword.Root.Position + Vector3.new(0, 10, 0)
             
             -- Create and play the tween to move to the sword
             local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = CFrame.new(targetPosition)})
@@ -59,7 +59,7 @@ local function interactWithSwords()
             tween.Completed:Wait() -- Wait for the tween to finish
             
             -- Use the custom fireproximityprompt function to interact with the proximity prompt
-            local proximityPrompt = sword.HumanoidRootPart.ProximityPrompt
+            local proximityPrompt = sword.Root.ProximityPrompt
             if proximityPrompt then
                 -- Set MaxActivationDistance to 100 for all proximity prompts
                 proximityPrompt.MaxActivationDistance = 75
@@ -76,6 +76,8 @@ local function interactWithSwords()
         end
     end
 end
+
+
 
 -- Function to interact with Zoro
 local function interactWithZoro()
@@ -124,7 +126,7 @@ local function interactWithZoro()
         
         fireproximityprompt(proximityPrompt, 1, false)
         
-        -- Optionally reset HoldDuration after the second interaction
+        -- Optionally reset the HoldDuration after the second interaction
         proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
     else
         warn("ProximityPrompt not found for Zoro")
@@ -174,25 +176,7 @@ questGiverButton.MouseButton1Click:Connect(function()
     tween.Completed:Wait()
 end)
 
--- Create Buttons for Swords
-local swordNames = {"Sword1", "Sword2", "Sword3"}
-for _, swordName in ipairs(swordNames) do
-    local swordButton = Instance.new("TextButton")
-    swordButton.Name = swordName .. "Button"
-    swordButton.Parent = screenGui
-    swordButton.Size = UDim2.new(0, 150, 0, 50)
-    swordButton.Position = UDim2.new(0.5, -75, 0.5, -105 - (#swordNames - _)) -- Position buttons vertically
-    swordButton.Text = "Tween to " .. swordName
-    swordButton.Font = Enum.Font.SourceSans
-    swordButton.TextSize = 14
-    swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    swordButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    swordButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
-    swordButton.BorderSizePixel = 2
-    swordButton.MouseButton1Click:Connect(function()
-        interactWithSwords()
-    end)
-end
+-- GUI creation and event connections for closing the GUI remain unchanged
 
 -- Create Close GUI Button
 local closeGuiButton = Instance.new("TextButton")
