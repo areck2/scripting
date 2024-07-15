@@ -1,198 +1,198 @@
--- Setup GUI Elements
-local Gui = Instance.new("ScreenGui")
-local BackGround = Instance.new("Frame")
-local XBox = Instance.new("TextBox")
-local YBox = Instance.new("TextBox")
-local ZBox = Instance.new("TextBox")
-local ExitGuiButton = Instance.new("TextButton")
-local TeleportButton = Instance.new("TextButton")
-
-Gui.Name = "TeleportGui"
-Gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-Gui.ResetOnSpawn = false
-
-BackGround.Name = "BackGround"
-BackGround.Parent = Gui
-BackGround.Active = true
-BackGround.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-BackGround.BorderColor3 = Color3.fromRGB(27, 42, 53)
-BackGround.BorderSizePixel = 0
-BackGround.Position = UDim2.new(0.414194375, -35, 0.447971016, -5)
-BackGround.Size = UDim2.new(0, 220, 0, 100)
-BackGround.Active = true
-BackGround.Draggable = true
-
-local function CreateCoordBox(name, placeholder, position)
-    local box = Instance.new("TextBox")
-    box.Name = name
-    box.Parent = BackGround
-    box.BackgroundColor3 = Color3.fromRGB(93, 93, 93)
-    box.BorderColor3 = Color3.fromRGB(38, 38, 38)
-    box.BorderSizePixel = 3
-    box.Position = position
-    box.Size = UDim2.new(0, 60, 0, 30)
-    box.ClearTextOnFocus = false
-    box.Font = Enum.Font.SourceSans
-    box.PlaceholderText = placeholder
-    box.Text = ""
-    box.TextColor3 = Color3.fromRGB(255, 255, 255)
-    box.TextScaled = true
-    box.TextSize = 14.000
-    box.TextWrapped = true
-    return box
-end
-
-XBox = CreateCoordBox("XBox", "X", UDim2.new(0.05, 0, 0.15, 0))
-YBox = CreateCoordBox("YBox", "Y", UDim2.new(0.36, 0, 0.15, 0))
-ZBox = CreateCoordBox("ZBox", "Z", UDim2.new(0.67, 0, 0.15, 0))
-
-ExitGuiButton.Name = "ExitGuiButton"
-ExitGuiButton.Parent = BackGround
-ExitGuiButton.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
-ExitGuiButton.BorderColor3 = Color3.fromRGB(50, 50, 50)
-ExitGuiButton.BorderSizePixel = 3
-ExitGuiButton.Position = UDim2.new(0.91, 0, -0.21, 0)
-ExitGuiButton.Size = UDim2.new(0, 20, 0, 20)
-ExitGuiButton.Font = Enum.Font.SourceSans
-ExitGuiButton.Text = "X"
-ExitGuiButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ExitGuiButton.TextSize = 14.000
-ExitGuiButton.TextWrapped = true
-
-TeleportButton.Name = "TeleportButton"
-TeleportButton.Parent = BackGround
-TeleportButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-TeleportButton.BorderColor3 = Color3.fromRGB(50, 50, 50)
-TeleportButton.BorderSizePixel = 3
-TeleportButton.Position = UDim2.new(0.25, 0, 0.65, 0)
-TeleportButton.Size = UDim2.new(0, 110, 0, 30)
-TeleportButton.Font = Enum.Font.SourceSans
-TeleportButton.Text = "Teleport"
-TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TeleportButton.TextSize = 18.000
-
--- Hide/Show Menu
-local UIS = game:GetService("UserInputService")
-local guiVisible = true
-
-UIS.InputBegan:Connect(function(input, gameProcessed)
-    if input.KeyCode == Enum.KeyCode.Insert then
-        guiVisible = not guiVisible
-        Gui.Enabled = guiVisible
-    end
-end)
-
--- Exit Button
-ExitGuiButton.MouseButton1Click:Connect(function()
-    Gui:Destroy()
-end)
-
--- Teleport Function using TweenService
+-- Services
 local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
 
-local function DoTeleport()
-    local x, y, z = tonumber(XBox.Text), tonumber(YBox.Text), tonumber(ZBox.Text)
-    if x and y and z then
-        local targetPosition = Vector3.new(x, y, z) + Vector3.new(0, 10, 0) -- Offset by 10 studs on the Y-axis
-        local player = game.Players.LocalPlayer
-        local character = player.Character
-        if character then
-            local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-            if humanoidRootPart then
-                -- Define TweenInfo
-                local tweenInfo = TweenInfo.new(
-                    2, -- Duration (in seconds)
-                    Enum.EasingStyle.Linear, -- Easing style
-                    Enum.EasingDirection.Out, -- Easing direction
-                    0, -- Repeat count (0 means no repeat)
-                    false, -- Reverses (tween will not reverse)
-                    0 -- Delay time (in seconds)
-                )
-                
-                -- Define TargetValue
-                local targetValue = {
-                    CFrame = CFrame.new(targetPosition)
-                }
-                
-                -- Create and play the tween
-                local tween = TweenService:Create(humanoidRootPart, tweenInfo, targetValue)
-                tween:Play()
-            else
-                print("HumanoidRootPart not found. Cannot teleport.")
-            end
-        else
-            print("Character not found. Cannot teleport.")
-        end
-    else
-        print("Invalid coordinates. Please enter numbers in all fields.")
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Define coordinates for Quest Giver and Zoro
+local X_QuestGiver, Y_QuestGiver, Z_QuestGiver = 2056, 973, 320 -- Example coordinates
+local X_Zoro, Y_Zoro, Z_Zoro = 1009, 1008, -235 -- Example coordinates
+
+-- fireproximityprompt function definition
+local function fireproximityprompt(ProximityPrompt: ProximityPrompt, Amount: Integer, Skip: Boolean)
+    assert(ProximityPrompt, "Argument #1 Missing or nil")
+    assert(typeof(ProximityPrompt) == "Instance" and ProximityPrompt:IsA("ProximityPrompt"), "Attempted to fire a Value that is not a ProximityPrompt")
+
+    local HoldDuration = ProximityPrompt.HoldDuration
+    if Skip then
+        ProximityPrompt.HoldDuration = 0
     end
+
+    for i = 1, Amount or 1 do
+        ProximityPrompt:InputHoldBegin()
+        if Skip then
+            local RunService = game:GetService("RunService")
+            local Start = time()
+            repeat
+                RunService.Heartbeat:Wait(0.1)
+            until time() - Start > HoldDuration
+        end
+        ProximityPrompt:InputHoldEnd()
+    end
+    ProximityPrompt.HoldDuration = HoldDuration
 end
 
--- Teleport Button
-TeleportButton.MouseButton1Click:Connect(DoTeleport)
-
--- Teleport on Enter key
-XBox.FocusLost:Connect(function(enterPressed) if enterPressed then DoTeleport() end end)
-YBox.FocusLost:Connect(function(enterPressed) if enterPressed then DoTeleport() end end)
-ZBox.FocusLost:Connect(function(enterPressed) if enterPressed then DoTeleport() end end)
-
-
-
-
-
--- Create a new button for teleporting to the quest giver
-local tpQuestGiverButton = Instance.new("TextButton")
-tpQuestGiverButton.Name = "TpQuestGiverButton"
-tpQuestGiverButton.Parent = BackGround -- Assuming BackGround is the Frame that contains your other GUI elements
-
--- Set the button's appearance
-tpQuestGiverButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Green color for visibility
-tpQuestGiverButton.BorderColor3 = Color3.fromRGB(50, 50, 50)
-tpQuestGiverButton.BorderSizePixel = 3
-tpQuestGiverButton.Position = UDim2.new(0.75, 0, 0.8, 0) -- Position it appropriately within your GUI layout
-tpQuestGiverButton.Size = UDim2.new(0, 150, 0, 40) -- Size according to your design
-tpQuestGiverButton.Font = Enum.Font.SourceSans
-tpQuestGiverButton.Text = "TP to Quest Giver"
-tpQuestGiverButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpQuestGiverButton.TextSize = 16
-
-local function TeleportToQuestGiver()
-    local targetPosition = Vector3.new(2057.1005859375, 973.9896240234375, 322.25543212890625)
-    local player = game.Players.LocalPlayer
+-- Function to interact with swords
+local function interactWithSwords()
+    local player = Players.LocalPlayer
     local character = player.Character
-    if character then
-        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-        if humanoidRootPart then
-            -- Define TweenInfo
-            local tweenInfo = TweenInfo.new(
-                2, -- Duration (in seconds)
-                Enum.EasingStyle.Linear,
-                Enum.EasingDirection.Out,
-                0,
-                false,
-                0
-            )
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    local swords = {"Sword1", "Sword2", "Sword3"} -- Names of the swords in Workspace
+    local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+    
+    for _, swordName in ipairs(swords) do
+        local sword = workspace:FindFirstChild(swordName)
+        if sword then
+            -- Calculate the target position 10 units above the sword's location
+            local targetPosition = sword.Root.Position + Vector3.new(0, 10, 0)
             
-            -- Define TargetValue
-            local targetValue = {
-                CFrame = CFrame.new(targetPosition)
-            }
-            
-            -- Create and play the tween
-            local tween = TweenService:Create(humanoidRootPart, tweenInfo, targetValue)
+            -- Create and play the tween to move to the sword
+            local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = CFrame.new(targetPosition)})
             tween:Play()
+            
+            tween.Completed:Wait() -- Wait for the tween to finish
+            
+            -- Use the custom fireproximityprompt function to interact with the proximity prompt
+            local proximityPrompt = sword.Root.ProximityPrompt
+            if proximityPrompt then
+                -- Set MaxActivationDistance to 100 for all proximity prompts
+                proximityPrompt.MaxActivationDistance = 75
+                
+                -- Call fireproximityprompt directly for each sword
+                fireproximityprompt(proximityPrompt, 1, false) -- Default to 1 interaction, without skipping
+            else
+                warn("ProximityPrompt not found for", swordName)
+            end
+            
+            wait(1) -- Short delay after interaction
         else
-            print("HumanoidRootPart not found. Cannot teleport.")
+            warn("Sword not found:", swordName)
         end
-    else
-        print("Character not found. Cannot teleport.")
     end
 end
 
 
-tpQuestGiverButton.MouseButton1Click:Connect(TeleportToQuestGiver)
 
+-- Function to interact with Zoro
+local function interactWithZoro()
+    local player = Players.LocalPlayer
+    local character = player.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    -- Tween to ZoroCoords
+    local targetPosition = Vector3.new(X_Zoro, Y_Zoro, Z_Zoro)
+    local tween = TweenService:Create(humanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(targetPosition)})
+    tween:Play()
+    tween.Completed:Wait()
+    
+    -- Interact with the "Interaction" proximity prompt
+    local proximityPrompt = workspace.NPCS.Zoro.HumanoidRootPart.Attachment.Interaction
+    if proximityPrompt then
+        -- Set the HoldDuration to 0 for immediate interaction
+        proximityPrompt.HoldDuration = 0
+        
+        fireproximityprompt(proximityPrompt, 1, false)
+        
+        -- Reset the HoldDuration to its original value if needed
+        proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
+        
+        wait(1) -- Wait for 1 second after interaction with Zoro
+    else
+        warn("ProximityPrompt not found for Zoro")
+    end
 
--- IMPORTANT
--- swords for the quest are located in workspace under Sword1 Sword2 and Sword3. The proximity prompts are stored inside SwordX Root Proximity Prompt (X meaning the sword number.)
+    -- Perform the sword interaction part
+    interactWithSwords()
+    
+    -- Return to ZoroCoords and interact again
+    targetPosition = Vector3.new(X_Zoro, Y_Zoro, Z_Zoro)
+    tween = TweenService:Create(humanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(targetPosition)})
+    tween:Play()
+    tween.Completed:Wait()
+    
+    proximityPrompt = workspace.NPCS.Zoro.HumanoidRootPart.Attachment.Interaction
+    if proximityPrompt then
+        -- Again, set the HoldDuration to 0 for immediate interaction
+        proximityPrompt.HoldDuration = 0
+        
+        fireproximityprompt(proximityPrompt, 1, false)
+        
+        -- Optionally reset the HoldDuration after the second interaction
+        proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
+    else
+        warn("ProximityPrompt not found for Zoro")
+    end
+end
+
+-- Create Interact Button for Zoro
+local zoroButton = Instance.new("TextButton")
+zoroButton.Name = "ZoroButton"
+zoroButton.Parent = screenGui
+zoroButton.Size = UDim2.new(0, 150, 0, 50)
+zoroButton.Position = UDim2.new(0.5, -75, 0.5, -35) -- Adjusted position above the Quest Giver button
+zoroButton.Text = "Interact with Zoro"
+zoroButton.Font = Enum.Font.SourceSans
+zoroButton.TextSize = 14
+zoroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+zoroButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+zoroButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
+zoroButton.BorderSizePixel = 2
+zoroButton.MouseButton1Click:Connect(interactWithZoro)
+
+-- Create Tween to Quest Giver Button
+local questGiverButton = Instance.new("TextButton")
+questGiverButton.Name = "QuestGiverButton"
+questGiverButton.Parent = screenGui
+questGiverButton.Size = UDim2.new(0, 150, 0, 50)
+questGiverButton.Position = UDim2.new(0.5, -75, 0.5, -85) -- Adjusted position below the Zoro button
+questGiverButton.Text = "Tween to Quest Giver"
+questGiverButton.Font = Enum.Font.SourceSans
+questGiverButton.TextSize = 14
+questGiverButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+questGiverButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+questGiverButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
+questGiverButton.BorderSizePixel = 2
+questGiverButton.MouseButton1Click:Connect(function()
+    local player = Players.LocalPlayer
+    local character = player.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    -- Tween to QuestGiverCoords
+    local targetPosition = Vector3.new(X_QuestGiver, Y_QuestGiver, Z_QuestGiver)
+    local tween = TweenService:Create(humanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(targetPosition)})
+    tween:Play()
+    tween.Completed:Wait()
+end)
+
+-- GUI creation and event connections for closing the GUI remain unchanged
+
+-- Create Close GUI Button
+local closeGuiButton = Instance.new("TextButton")
+closeGuiButton.Name = "CloseGuiButton"
+closeGuiButton.Parent = screenGui
+closeGuiButton.Size = UDim2.new(0, 100, 0, 30)
+closeGuiButton.Position = UDim2.new(0.5, -50, 0.6, 0) -- Positioned below the Interact Button
+closeGuiButton.Text = "Close GUI"
+closeGuiButton.Font = Enum.Font.SourceSans
+closeGuiButton.TextSize = 14
+closeGuiButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeGuiButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Red for visibility
+closeGuiButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
+closeGuiButton.BorderSizePixel = 2
+
+-- Toggle GUI visibility on Close GUI button click
+closeGuiButton.MouseButton1Click:Connect(function()
+    screenGui.Enabled = not screenGui.Enabled
+end)
