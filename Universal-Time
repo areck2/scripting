@@ -6,9 +6,8 @@ local Players = game:GetService("Players")
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Define coordinates for Quest Giver and Zoro
+-- Define coordinates for Quest Giver
 local X_QuestGiver, Y_QuestGiver, Z_QuestGiver = 2056, 973, 320 -- Example coordinates
-local X_Zoro, Y_Zoro, Z_Zoro = 1009, 1008, -235 -- Example coordinates
 
 -- fireproximityprompt function definition
 local function fireproximityprompt(ProximityPrompt: ProximityPrompt, Amount: Integer, Skip: Boolean)
@@ -79,10 +78,8 @@ local function interactWithSwords()
     end
 end
 
-
-
--- Function to interact with Zoro
-local function interactWithZoro()
+-- Function to interact with Zoro (now integrated into the "Run" button functionality)
+local function interactWithZoroAndRun()
     local player = Players.LocalPlayer
     local character = player.Character
     if not character then return end
@@ -129,41 +126,10 @@ local function interactWithZoro()
         fireproximityprompt(proximityPrompt, 1, false)
         
         -- Optionally reset the HoldDuration after the second interaction
-        proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
+        proximityPrompt.HoldDuration = 0
     else
         warn("ProximityPrompt not found for Zoro")
     end
-end
-
--- Create Interact Button for Zoro
-local zoroButton = Instance.new("TextButton")
-zoroButton.Name = "ZoroButton"
-zoroButton.Parent = screenGui
-zoroButton.Size = UDim2.new(0, 150, 0, 50)
-zoroButton.Position = UDim2.new(0.5, -75, 0.5, -35) -- Adjusted position above the Quest Giver button
-zoroButton.Text = "Interact with Zoro"
-zoroButton.Font = Enum.Font.SourceSans
-zoroButton.TextSize = 14
-zoroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-zoroButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-zoroButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
-zoroButton.BorderSizePixel = 2
-zoroButton.MouseButton1Click:Connect(interactWithZoro)
-
--- Create Tween to Quest Giver Button
-local questGiverButton = Instance.new("TextButton")
-questGiverButton.Name = "QuestGiverButton"
-questGiverButton.Parent = screenGui
-questGiverButton.Size = UDim2.new(0, 150, 0, 50)
-questGiverButton.Position = UDim2.new(0.5, -75, 0.5, -85) -- Adjusted position below the Zoro button
-questGiverButton.Text = "Tween to Quest Giver"
-questGiverButton.Font = Enum.Font.SourceSans
-questGiverButton.TextSize = 14
-questGiverButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-questGiverButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-questGiverButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
-questGiverButton.BorderSizePixel = 2
-questGiverButton.MouseButton1Click:Connect(function()
     local player = Players.LocalPlayer
     local character = player.Character
     if not character then return end
@@ -176,7 +142,23 @@ questGiverButton.MouseButton1Click:Connect(function()
     local tween = TweenService:Create(humanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(targetPosition)})
     tween:Play()
     tween.Completed:Wait()
-end)
+end
+
+
+local zoroButton = Instance.new("TextButton")
+zoroButton.Name = "ZoroButton"
+zoroButton.Parent = screenGui
+zoroButton.Size = UDim2.new(0, 150, 0, 50)
+zoroButton.Position = UDim2.new(0.5, -75, 0.5, -35) -- Adjusted position above the Quest Giver button
+zoroButton.Text = "Interact with Zoro"
+zoroButton.Font = Enum.Font.SourceSans
+zoroButton.TextSize = 14
+zoroButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+zoroButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+zoroButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
+zoroButton.BorderSizePixel = 2
+zoroButton.MouseButton1Click:Connect(interactWithZoroAndRun)
+
 
 -- GUI creation and event connections for closing the GUI remain unchanged
 
