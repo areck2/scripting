@@ -29,9 +29,9 @@ local function fireproximityprompt(ProximityPrompt: ProximityPrompt, Amount: Int
                 RunService.Heartbeat:Wait(0.1)
             until time() - Start > HoldDuration
         end
-        ProximityPrompt:InputHoldEnd()
+        Prompt:InputHoldEnd()
     end
-    ProximityPrompt.HoldDuration = HoldDuration
+    Prompt.HoldDuration = HoldDuration
 end
 
 -- Function to interact with swords
@@ -58,14 +58,16 @@ local function interactWithSwords()
             
             tween.Completed:Wait() -- Wait for the tween to finish
             
-            -- Use the custom fireproximityprompt function to interact with the proximity prompt
-            local proximityPrompt = sword.Root.ProximityPrompt
-            if proximityPrompt then
-                -- Set MaxActivationDistance to 100 for all proximity prompts
-                proximityPrompt.MaxActivationDistance = 75
-                
-                -- Call fireproximityprompt directly for each sword
+            -- Use the custom fireprompt function to interact with the  prompt
+            local Prompt = sword.Root.Prompt
+            Prompt.MaxActivationDistance = 75
+            if Prompt then
+                -- Set MaxActivationDistance to 100 for all  prompts
+                Prompt.MaxActivationDistance = 75
+                wait(1)
+                -- Call fireprompt directly for each sword
                 fireproximityprompt(proximityPrompt, 1, false) -- Default to 1 interaction, without skipping
+                
             else
                 warn("ProximityPrompt not found for", swordName)
             end
@@ -103,7 +105,7 @@ local function interactWithZoro()
         fireproximityprompt(proximityPrompt, 1, false)
         
         -- Reset the HoldDuration to its original value if needed
-        proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
+        proximityPrompt.HoldDuration = 0 -- Assuming the default value was 0.1 seconds
         
         wait(1) -- Wait for 1 second after interaction with Zoro
     else
