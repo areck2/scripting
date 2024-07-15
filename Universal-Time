@@ -60,7 +60,6 @@ local function interactWithSwords()
             
             -- Use the custom fireproximityprompt function to interact with the proximity prompt
             local proximityPrompt = sword.HumanoidRootPart.ProximityPrompt
-            proximityPrompt.MaxActivationDistance = 75
             if proximityPrompt then
                 -- Set MaxActivationDistance to 100 for all proximity prompts
                 proximityPrompt.MaxActivationDistance = 75
