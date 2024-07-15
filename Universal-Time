@@ -136,3 +136,63 @@ TeleportButton.MouseButton1Click:Connect(DoTeleport)
 XBox.FocusLost:Connect(function(enterPressed) if enterPressed then DoTeleport() end end)
 YBox.FocusLost:Connect(function(enterPressed) if enterPressed then DoTeleport() end end)
 ZBox.FocusLost:Connect(function(enterPressed) if enterPressed then DoTeleport() end end)
+
+
+
+
+
+-- Create a new button for teleporting to the quest giver
+local tpQuestGiverButton = Instance.new("TextButton")
+tpQuestGiverButton.Name = "TpQuestGiverButton"
+tpQuestGiverButton.Parent = BackGround -- Assuming BackGround is the Frame that contains your other GUI elements
+
+-- Set the button's appearance
+tpQuestGiverButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Green color for visibility
+tpQuestGiverButton.BorderColor3 = Color3.fromRGB(50, 50, 50)
+tpQuestGiverButton.BorderSizePixel = 3
+tpQuestGiverButton.Position = UDim2.new(0.75, 0, 0.8, 0) -- Position it appropriately within your GUI layout
+tpQuestGiverButton.Size = UDim2.new(0, 150, 0, 40) -- Size according to your design
+tpQuestGiverButton.Font = Enum.Font.SourceSans
+tpQuestGiverButton.Text = "TP to Quest Giver"
+tpQuestGiverButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+tpQuestGiverButton.TextSize = 16
+
+local function TeleportToQuestGiver()
+    local targetPosition = Vector3.new(2057.1005859375, 973.9896240234375, 322.25543212890625)
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            -- Define TweenInfo
+            local tweenInfo = TweenInfo.new(
+                2, -- Duration (in seconds)
+                Enum.EasingStyle.Linear,
+                Enum.EasingDirection.Out,
+                0,
+                false,
+                0
+            )
+            
+            -- Define TargetValue
+            local targetValue = {
+                CFrame = CFrame.new(targetPosition)
+            }
+            
+            -- Create and play the tween
+            local tween = TweenService:Create(humanoidRootPart, tweenInfo, targetValue)
+            tween:Play()
+        else
+            print("HumanoidRootPart not found. Cannot teleport.")
+        end
+    else
+        print("Character not found. Cannot teleport.")
+    end
+end
+
+
+tpQuestGiverButton.MouseButton1Click:Connect(TeleportToQuestGiver)
+
+
+-- IMPORTANT
+-- swords for the quest are located in workspace under Sword1 Sword2 and Sword3. The proximity prompts are stored inside SwordX Root Proximity Prompt (X meaning the sword number.)
