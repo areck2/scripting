@@ -29,9 +29,9 @@ local function fireproximityprompt(ProximityPrompt: ProximityPrompt, Amount: Int
                 RunService.Heartbeat:Wait(0.1)
             until time() - Start > HoldDuration
         end
-        Prompt:InputHoldEnd()
+        ProximityPrompt:InputHoldEnd()
     end
-    Prompt.HoldDuration = HoldDuration
+    ProximityPrompt.HoldDuration = HoldDuration
 end
 
 -- Function to interact with swords
@@ -50,7 +50,7 @@ local function interactWithSwords()
         local sword = workspace:FindFirstChild(swordName)
         if sword then
             -- Calculate the target position 10 units above the sword's location
-            local targetPosition = sword.Root.Position + Vector3.new(0, 10, 0)
+            local targetPosition = sword.HumanoidRootPart.Position + Vector3.new(0, 10, 0)
             
             -- Create and play the tween to move to the sword
             local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = CFrame.new(targetPosition)})
@@ -58,16 +58,15 @@ local function interactWithSwords()
             
             tween.Completed:Wait() -- Wait for the tween to finish
             
-            -- Use the custom fireprompt function to interact with the  prompt
-            local Prompt = sword.Root.Prompt
-            Prompt.MaxActivationDistance = 75
-            if Prompt then
-                -- Set MaxActivationDistance to 100 for all  prompts
-                Prompt.MaxActivationDistance = 75
-                wait(1)
-                -- Call fireprompt directly for each sword
-                fireproximityprompt(proximityPrompt, 1, false) -- Default to 1 interaction, without skipping
+            -- Use the custom fireproximityprompt function to interact with the proximity prompt
+            local proximityPrompt = sword.HumanoidRootPart.ProximityPrompt
+            proximityPrompt.MaxActivationDistance = 75
+            if proximityPrompt then
+                -- Set MaxActivationDistance to 100 for all proximity prompts
+                proximityPrompt.MaxActivationDistance = 75
                 
+                -- Call fireproximityprompt directly for each sword
+                fireproximityprompt(proximityPrompt, 1, false) -- Default to 1 interaction, without skipping
             else
                 warn("ProximityPrompt not found for", swordName)
             end
@@ -78,8 +77,6 @@ local function interactWithSwords()
         end
     end
 end
-
-
 
 -- Function to interact with Zoro
 local function interactWithZoro()
@@ -105,7 +102,7 @@ local function interactWithZoro()
         fireproximityprompt(proximityPrompt, 1, false)
         
         -- Reset the HoldDuration to its original value if needed
-        proximityPrompt.HoldDuration = 0 -- Assuming the default value was 0.1 seconds
+        proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
         
         wait(1) -- Wait for 1 second after interaction with Zoro
     else
@@ -128,7 +125,7 @@ local function interactWithZoro()
         
         fireproximityprompt(proximityPrompt, 1, false)
         
-        -- Optionally reset the HoldDuration after the second interaction
+        -- Optionally reset HoldDuration after the second interaction
         proximityPrompt.HoldDuration = 0.1 -- Assuming the default value was 0.1 seconds
     else
         warn("ProximityPrompt not found for Zoro")
@@ -178,7 +175,25 @@ questGiverButton.MouseButton1Click:Connect(function()
     tween.Completed:Wait()
 end)
 
--- GUI creation and event connections for closing the GUI remain unchanged
+-- Create Buttons for Swords
+local swordNames = {"Sword1", "Sword2", "Sword3"}
+for _, swordName in ipairs(swordNames) do
+    local swordButton = Instance.new("TextButton")
+    swordButton.Name = swordName .. "Button"
+    swordButton.Parent = screenGui
+    swordButton.Size = UDim2.new(0, 150, 0, 50)
+    swordButton.Position = UDim2.new(0.5, -75, 0.5, -105 - (#swordNames - _)) -- Position buttons vertically
+    swordButton.Text = "Tween to " .. swordName
+    swordButton.Font = Enum.Font.SourceSans
+    swordButton.TextSize = 14
+    swordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    swordButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    swordButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
+    swordButton.BorderSizePixel = 2
+    swordButton.MouseButton1Click:Connect(function()
+        interactWithSwords()
+    end)
+end
 
 -- Create Close GUI Button
 local closeGuiButton = Instance.new("TextButton")
