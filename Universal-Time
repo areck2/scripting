@@ -66,6 +66,8 @@ local function interactWithSwords()
                 
                 -- Call fireproximityprompt directly for each sword
                 fireproximityprompt(proximityPrompt, 1, false) -- Default to 1 interaction, without skipping
+                wait(1)
+                fireproximityprompt(proximityPrompt, 1, false) -- Default to 1 interaction, without skipping
             else
                 warn("ProximityPrompt not found for", swordName)
             end
